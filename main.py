@@ -1,13 +1,25 @@
+def buscapal():
+    encontrado = False
+    objetivo = input().lower()
+    for pal in pals:
+        nombre, numero = pal
+        if nombre == objetivo:
+            encontrado = True
+            return numero
+    if encontrado!=True:
+        print("No encontrado")
+        buscapal()
+
 with open('infopals.txt', 'r') as archivo:
-        nombres = [nombre.strip() for nombre in archivo.readlines()]
+        pals = [nombre.strip().lower().split(' - ') for nombre in archivo.readlines()]
+
+objetivo = ""
 
 print("¿objetivo?")
-objetivo = input()
+numero_objetivo = buscapal()
 
-numero = 0
-for nombre in nombres:
-    print(numero)
-    numero += 1
-    if objetivo == nombre:
-        print("Encontrado: " + nombre)
-        break
+print("¿padre?")
+padre = buscapal()
+
+print(numero_objetivo)
+print(padre)
