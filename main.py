@@ -1,45 +1,127 @@
-import json
-from pal import Pal
-
-
-def buscar_pal(nombre):
+def buscapal():
+    encontrado = False
+    objetivo = input().lower()
     for pal in pals:
-        if pal.nombre.lower() == nombre.lower():
-            return pal
-    return None
+        nombre, numero = pal
+        if nombre == objetivo:
+            encontrado = True
+            return numero
+    if encontrado!=True:
+        print("No encontrado")
+        buscapal()
 
+def lookpath(padre, objetivo, limit, opciones = [], actual = []):
+    if limit <= len(actual):
+        actual.clear()
+        return opciones
+    padre = int(padre)
+    objetivo = int(objetivo)
 
-pals = []
+    if len(actual) != 0:
+        if actual[len(actual)-1] == objetivo:
+            opciones.append(actual)
+            return opciones
+
+    numero = posiblepal(objetivo, padre)
+
+    if numero < padre:
+        if len(actual) == 0:
+            actual.append(numero)
+            numero = searchpal((numero + padre)/2)
+            actual.append(numero)
+            posible = lookpath(numero, objetivo, limit, opciones, actual)
+        elif actual[len(actual)-2] != numero:
+            actual.append(numero)
+            numero = searchpal((numero + padre)/2)
+            actual.append(numero)
+            posible = lookpath(numero, objetivo, limit, opciones, actual)
+
+    if numero > padre:
+        if len(actual) == 0:
+            actual.append(numero)
+            numero = searchpal((numero + padre)/2)
+            actual.append(numero)
+            posible = lookpath(numero, objetivo, limit, opciones, actual)
+        elif actual[len(actual)-2] != numero:
+            actual.append(numero)
+            numero = searchpal((numero + padre)/2)
+            actual.append(numero)
+            posible = lookpath(numero, objetivo, limit, opciones, actual)
+
+    """
+    if padre > objetivo:
+        for pal in pals:
+            nombre, numero = pal
+            numero = int(numero)
+            if numero < padre:
+                if len(actual) == 0:
+                    actual.append(numero)
+                    numero = searchpal((numero + padre)/2)
+                    actual.append(numero)
+                    posible = lookpath(numero, objetivo, limit, opciones, actual)
+                elif actual[len(actual)-2] != numero:
+                    actual.append(numero)
+                    numero = searchpal((numero + padre)/2)
+                    actual.append(numero)
+                    posible = lookpath(numero, objetivo, limit, opciones, actual)
+                    
+
+    elif padre < objetivo:
+         for pal in pals:
+            nombre, numero = pal
+            numero = int(numero)
+            if numero > padre:
+                if len(actual) == 0:
+                    actual.append(numero)
+                    numero = searchpal((numero + padre)/2)
+                    actual.append(numero)
+                    posible = lookpath(numero, objetivo, limit, opciones, actual)
+                elif actual[len(actual)-2] != numero:
+                    actual.append(numero)
+                    numero = searchpal((numero + padre)/2)
+                    actual.append(numero)
+                    posible = lookpath(numero, objetivo, limit, opciones, actual)
+                    """
+
+    
+            
+            
+def searchpal(numero):
+    numero = int(numero)
+    powers = [int(power) for nombre, power in pals if int(power) != numero]
+    powers_greater_equal = [power for power in powers if power >= numero]
+    if powers_greater_equal:
+        closest = min(powers_greater_equal, key=lambda x: abs(x - numero))
+    else:
+        closest = max(powers, key=lambda x: abs(x - numero))
+    return closest
+
+def posiblepal(objetivo, padre):
+    numero = (objetivo + padre)/2
+    numero = int(numero)
+    powers = [int(power) for nombre, power in pals if int(power) != objetivo]
+    powers_greater_equal = [power for power in powers if power >= numero]
+    if powers_greater_equal:
+        closest = min(powers_greater_equal, key=lambda x: abs(x - numero))
+    else:
+        closest = max(powers, key=lambda x: abs(x - numero))
+    return closest
+
 with open('infopals.txt', 'r') as archivo:
-        Npals = [nombre.strip().lower().split(' - ') for nombre in archivo.readlines()]
-        for nombre, poder in Npals:
-            pals.append(Pal(nombre, poder))
-        del Npals
+        pals = [nombre.strip().lower().split(' - ') for nombre in archivo.readlines()]
 
 
-resultados = []
-with open('resultados.csv', 'r') as archivo:
-    for linea in archivo.readlines():
-        resultados.extend(linea.strip().split(',')[1:])
+print("¿objetivo?")
+numero_objetivo = 190 #buscapal()
 
-datos = []
+print("¿padre?")
+padre = 150 #buscapal()
 
-i = 0
-for pal in pals:
-    for pal2 in pals:
-        hijo = buscar_pal(resultados[i])
-        print(pal.nombre, pal2.nombre)
-        dato = {
-        "padre1": pal.to_dict(),
-        "padre2": pal2.to_dict(),
-        "resultado": hijo.to_dict()
-        }
-        datos.append(dato)
-        i += 1
+if padre > numero_objetivo:
+    pals = sorted(pals, key=lambda x: int(x[1]))
+else:
+    pals = sorted(pals, key=lambda x: int(x[1]), reverse=True)
 
-json_data = {
-    "datos": datos
-}
+lista = lookpath(padre, numero_objetivo, 5, [], [])
 
-with open('breeding.json', 'w') as archivo:
-    json.dump(json_data, archivo, indent=4)
+print(lista)
