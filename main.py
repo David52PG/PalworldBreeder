@@ -1,6 +1,14 @@
 import json
 from pal import Pal
 
+
+def buscar_pal(nombre):
+    for pal in pals:
+        if pal.nombre.lower() == nombre.lower():
+            return pal
+    return None
+
+
 pals = []
 with open('infopals.txt', 'r') as archivo:
         Npals = [nombre.strip().lower().split(' - ') for nombre in archivo.readlines()]
@@ -19,11 +27,12 @@ datos = []
 i = 0
 for pal in pals:
     for pal2 in pals:
+        hijo = buscar_pal(resultados[i])
         print(pal.nombre, pal2.nombre)
         dato = {
         "padre1": pal.to_dict(),
         "padre2": pal2.to_dict(),
-        "resultado": resultados[i]
+        "resultado": hijo.to_dict()
         }
         datos.append(dato)
         i += 1
