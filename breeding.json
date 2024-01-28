@@ -1,0 +1,19 @@
+{
+    "datos": [
+        {
+            "padre1": "Padre1 del dato 1",
+            "padre2": "Padre2 del dato 1",
+            "resultado": "Resultado del dato 1"
+        },
+        {
+            "padre1": "Padre1 del dato 2",
+            "padre2": "Padre2 del dato 2",
+            "resultado": "Resultado del dato 2"
+        },
+        {
+            "padre1": "Padre1 del dato 3",
+            "padre2": "Padre2 del dato 3",
+            "resultado": "Resultado del dato 3"
+        }
+    ]
+}
