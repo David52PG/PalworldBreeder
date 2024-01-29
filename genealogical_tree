@@ -1,0 +1,13 @@
+// Genealogical Tree
+digraph {
+	Blazamut [label=Blazamut]
+	"Pyrin Noct" [label="Pyrin Noct"]
+	Cryolinx [label=Cryolinx]
+	Blazamut -> Cryolinx
+	"Pyrin Noct" -> Cryolinx
+	Suzaku [label=Suzaku]
+	Cryolinx [label=Cryolinx]
+	Suzaku [label=Suzaku]
+	Suzaku -> Suzaku
+	Cryolinx -> Suzaku
+}

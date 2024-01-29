@@ -102,6 +102,7 @@ del inicio, objetivo, path, soluciones, limite
 
 # Imprimir las soluciones ordenadas por menor longitud
 import graphviz
+import sys
 
 for sol in sorted_soluciones:
         dot = graphviz.Digraph(comment='Genealogical Tree')
@@ -117,3 +118,6 @@ for sol in sorted_soluciones:
                 dot.edge(padre2[0], hijo[0])
                 i = i - 2
         dot.render('genealogical_tree', format='png', view=True)
+        input("Presiona Enter para continuar o introduce 'q' para detenerse: ")
+        if input().lower() == 'q':
+            sys.exit()
