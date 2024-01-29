@@ -1,13 +1,18 @@
 // Genealogical Tree
 digraph {
+	Vanwyrm [label=Vanwyrm]
+	"Robinquill Terra" [label="Robinquill Terra"]
+	Kitsun [label=Kitsun]
+	Vanwyrm -> Kitsun
+	"Robinquill Terra" -> Kitsun
+	Kitsun [label=Kitsun]
+	Astegon [label=Astegon]
+	Shadowbeak [label=Shadowbeak]
+	Kitsun -> Shadowbeak
+	Astegon -> Shadowbeak
+	Shadowbeak [label=Shadowbeak]
 	Blazamut [label=Blazamut]
-	"Pyrin Noct" [label="Pyrin Noct"]
-	Cryolinx [label=Cryolinx]
-	Blazamut -> Cryolinx
-	"Pyrin Noct" -> Cryolinx
 	Suzaku [label=Suzaku]
-	Cryolinx [label=Cryolinx]
-	Suzaku [label=Suzaku]
-	Suzaku -> Suzaku
-	Cryolinx -> Suzaku
+	Shadowbeak -> Suzaku
+	Blazamut -> Suzaku
 }

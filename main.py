@@ -1,4 +1,5 @@
 import json
+import sys
 from pal import Pal
 
 """
@@ -87,9 +88,9 @@ def lookpath(inicial, objetivo, Padre, limite, path=[]):
 
 limite = 1
 print("¿de quien quieres partir?")
-inicio = buscar_pal('pyrin noct')#pedir_pal()
+inicio = pedir_pal()
 print("¿a quien quieres llegar?")
-objetivo = buscar_pal('suzaku')#pedir_pal()
+objetivo = pedir_pal()
 path = [objetivo]
 
 while len(soluciones) == 0:
@@ -102,7 +103,7 @@ del inicio, objetivo, path, soluciones, limite
 
 # Imprimir las soluciones ordenadas por menor longitud
 import graphviz
-import sys
+
 
 for sol in sorted_soluciones:
         dot = graphviz.Digraph(comment='Genealogical Tree')
@@ -117,7 +118,9 @@ for sol in sorted_soluciones:
                 dot.edge(padre1[0], hijo[0])
                 dot.edge(padre2[0], hijo[0])
                 i = i - 2
+
         dot.render('genealogical_tree', format='png', view=True)
         input("Presiona Enter para continuar o introduce 'q' para detenerse: ")
+
         if input().lower() == 'q':
             sys.exit()
