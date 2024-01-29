@@ -1,0 +1,138 @@
+Lamball - 1470
+Cattiva - 1460
+Chikipi - 1500
+Lifmunk - 1430
+Foxparks - 1400
+Fuack - 1330
+Sparkit - 1410
+Tanzee - 1250
+Rooby - 1155
+Pengullet - 1350
+Penking - 520
+Jolthog - 1370
+Jolthog Cryst - 1360
+Gumoss - 1240
+Gumoss (Special) - 1240
+Vixy - 1450
+Hoocrates - 1390
+Teafant - 1490
+Depresso - 1380
+Cremis - 1455
+Daedream - 1230
+Rushoar - 1130
+Nox - 1180
+Fuddler - 1220
+Killamari - 1290
+Mau - 1480
+Mau Cryst - 1440
+Celaray - 870
+Direhowl - 1060
+Tocotoco - 1340
+Flopie - 1280
+Mozzarina - 910
+Bristla - 1320
+Gobfin - 1090
+Gobfin Ignis - 1100
+Hangyu - 1420
+Hangyu Cryst - 1422
+Mossanda - 430
+Mossanda Lux - 390
+Woolipop - 1190
+Caprity - 930
+Melpaca - 890
+Eikthyrdeer - 920
+Eikthyrdeer Terra - 900
+Nitewing - 420
+Ribunny - 1310
+Incineram - 590
+Incineram Noct - 580
+Cinnamoth - 490
+Arsox - 790
+Dumud - 895
+Cawgnito - 1080
+Leezpunk - 1120
+Leezpunk Ignis - 1140
+Loupmoon - 950
+Galeclaw - 1030
+Robinquill - 1020
+Robinquill Terra - 1000
+Gorirat - 1040
+Beegarde - 1070
+Elizabee - 330
+Grintale - 510
+Swee - 1300
+Sweepa - 410
+Chillet - 800
+Univolt - 680
+Foxcicle - 760
+Pyrin - 360
+Pyrin Noct - 240
+Reindrix - 880
+Rayhound - 740
+Kitsun - 830
+Dazzi - 1210
+Lunaris - 1110
+Dinossom - 820
+Dinossom Lux - 810
+Surfent - 560
+Surfent Terra - 550
+Maraith - 1150
+Digtoise - 850
+Tombat - 750
+Lovander - 940
+Flambelle - 1405
+Vanwyrm - 660
+Vanwyrm Cryst - 620
+Bushi - 640
+Beakon - 220
+Ragnahawk - 380
+Katress - 700
+Wixen - 1160
+Verdash - 990
+Vaelet - 1050
+Sibelyx - 450
+Elphidran - 540
+Elphidran Aqua - 530
+Kelpsea - 1260
+Kelpsea Ignis - 1270
+Azurobe - 500
+Cryolinx - 130
+Blazehowl - 710
+Blazehowl Noct - 670
+Relaxaurus - 280
+Relaxaurus Lux - 270
+Broncherry - 860
+Broncherry Aqua - 840
+Petallia - 780
+Reptyro - 320
+Ice Reptyro - 230
+Kingpaca - 470
+Ice Kingpaca - 440
+Mammorest - 300
+Mammorest Cryst - 290
+Wumpo - 460
+Wumpo Botan - 480
+Warsect - 340
+Fenglope - 980
+Felbat - 1010
+Quivern - 350
+Blazamut - 10
+Helzephyr - 190
+Astegon - 150
+Menasting - 260
+Anubis - 570
+Jormuntide - 310
+Jormuntide Ignis - 315
+Suzaku - 50
+Suzaku Aqua - 30
+Grizzbolt - 200
+Lyleen - 250
+Lyleen Noct - 210
+Faleris - 370
+Orserk - 140
+Shadowbeak - 60
+Paladius - 80
+Necromus - 70
+Frostallion - 120
+Frostallion Noct - 100
+Jetragon - 90
