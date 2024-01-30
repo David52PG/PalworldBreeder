@@ -1,0 +1,8 @@
+// Genealogical Tree
+digraph {
+	Rayhound [label=Rayhound]
+	Beegarde [label=Beegarde]
+	Mozzarina [label=Mozzarina]
+	Rayhound -> Mozzarina
+	Beegarde -> Mozzarina
+}

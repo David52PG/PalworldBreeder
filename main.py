@@ -83,25 +83,41 @@ def lookpath(inicial, objetivo, Padre, limite, path=[]):
 
 
 limite = 1
-print("¿de quien quieres partir?")
+print("Who do you want to start with?")
 inicio = pedir_pal()
-print("¿a quien quieres llegar?")
+print("Who do you want to reach?")
 objetivo = pedir_pal()
 path = [objetivo]
 
 while len(soluciones) == 0:
         lookpath(inicio, objetivo, objetivo, limite, path)
         limite += 1
-# Obtener la longitud mínima del array de soluciones
-sorted_soluciones = sorted(soluciones, key=len)
 
-del inicio, objetivo, path, soluciones, limite
+del inicio, objetivo, path, limite
 
+print("removing repetitive solutions...")
+
+solucionesfiltred = soluciones.copy()
+#eliminando soluciones repetidas
+for sol in soluciones:
+        for sol2 in soluciones:
+                i = 1
+                while i < len(sol):
+                        if sol2[i] == sol[i + 1] and sol2[i + 1] == sol[i]:
+                                if sol2 in solucionesfiltred and sol in solucionesfiltred:
+                                        solucionesfiltred.remove(sol2)
+                        i += 2
+
+soluciones = solucionesfiltred.copy()
+
+print("found solutions:", len(soluciones))
+
+del solucionesfiltred, sol, sol2, i
 # Imprimir las soluciones ordenadas por menor longitud
 import graphviz
 
 
-for sol in sorted_soluciones:
+for sol in soluciones:
         dot = graphviz.Digraph(comment='Genealogical Tree')
         i = len(sol) - 1
         while i != 0:
@@ -116,7 +132,8 @@ for sol in sorted_soluciones:
                 i = i - 2
 
         dot.render('genealogical_tree', format='png', view=True)
-        input("Presiona Enter para continuar o introduce 'q' para detenerse: ")
+        print("Press Enter to continue or type 'q' to stop: ")
+        entrada = input()
 
-        if input().lower() == 'q':
+        if entrada.lower() == 'q':
             sys.exit()
