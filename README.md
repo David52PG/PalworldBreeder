@@ -4,3 +4,5 @@ A program to find a breeding path, specifying both the target and initial indivi
 Requires the Graphviz package installed.
 
 To use it, simply run 'main.py' and follow the instructions
+
+Feel free to report any issues :)
