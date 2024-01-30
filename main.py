@@ -61,15 +61,11 @@ metodo principal de busqueda
 """
 soluciones = []
 def lookpath(inicial, objetivo, Padre, limite, path=[]):
-        # Verificar si hemos alcanzado el límite de búsqueda
-        if limite == 0:
-                return path
-
         padres = buscar_resultado(Padre[0])
         # Recorrer los paths padres de la criatura inicial
         for pareja in padres:
                 if pareja['padre1'] == pareja['padre2']:
-                                return
+                                continue
                 path.append(buscar_pal(pareja['padre1']['nombre']))
                 path.append(buscar_pal(pareja['padre2']['nombre']))
                 for key in pareja:
@@ -79,7 +75,7 @@ def lookpath(inicial, objetivo, Padre, limite, path=[]):
                         Padre = buscar_pal(nombre_pal)
                         if Padre == inicial:
                                 soluciones.append(path.copy())  # Copiar el contenido de path
-                        else:
+                        elif limite > 1:
                                 lookpath(inicial, objetivo, Padre, limite-1, path)
                 path.pop()
                 path.pop()
