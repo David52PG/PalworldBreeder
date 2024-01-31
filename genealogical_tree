@@ -1,8 +1,13 @@
 // Genealogical Tree
 digraph {
+	Swee [label=Swee]
+	Chikipi [label=Chikipi]
+	Foxparks [label=Foxparks]
+	Swee -> Foxparks
+	Chikipi -> Foxparks
+	Suzaku [label=Suzaku]
+	Foxparks [label=Foxparks]
 	Rayhound [label=Rayhound]
-	Beegarde [label=Beegarde]
-	Mozzarina [label=Mozzarina]
-	Rayhound -> Mozzarina
-	Beegarde -> Mozzarina
+	Suzaku -> Rayhound
+	Foxparks -> Rayhound
 }

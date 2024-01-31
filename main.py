@@ -36,6 +36,7 @@ def buscar_pal(nombre_pal):
         for pal in pals:
                 if pal[0].lower() == nombre_pal.lower():
                         return pal
+        return None
 
 """
 buscar un pal por resultado de un apareamiento
@@ -59,7 +60,6 @@ def buscar_apareamiento(padre1, padre2):
 """
 metodo principal de busqueda
 """
-soluciones = []
 def lookpath(inicial, objetivo, Padre, limite, path=[]):
         padres = buscar_resultado(Padre[0])
         # Recorrer los paths padres de la criatura inicial
@@ -79,15 +79,68 @@ def lookpath(inicial, objetivo, Padre, limite, path=[]):
                                 lookpath(inicial, objetivo, Padre, limite-1, path)
                 path.pop()
                 path.pop()
-        return
+        return 
 
+soluciones = []
+path = []
+limite = 1
+if __name__ == "__main__":
+        mainloop(inicio, objetivo)
+def mainloop(inicio, objetivo):
+        global path, soluciones, limite
+        path.append(objetivo)
+        dot_images = []
 
+        while len(soluciones) == 0:
+                lookpath(inicio, objetivo, objetivo, limite, path)
+                limite += 1
+
+        del inicio, objetivo, path, limite
+
+        solucionesfiltred = soluciones.copy()
+        # eliminando soluciones repetidas
+        for sol in soluciones:
+                for sol2 in soluciones:
+                        i = 1
+                        while i < len(sol):
+                                if sol2[i] == sol[i + 1] and sol2[i + 1] == sol[i]:
+                                        if sol2 in solucionesfiltred and sol in solucionesfiltred:
+                                                solucionesfiltred.remove(sol2)
+                                i += 2
+
+        soluciones = solucionesfiltred.copy()
+
+        del solucionesfiltred, sol, sol2, i
+
+        import graphviz
+
+        for sol in soluciones:
+                dot = graphviz.Digraph(comment='Genealogical Tree')
+                i = len(sol) - 1
+                while i != 0:
+                        padre1 = sol[i]
+                        padre2 = sol[i - 1]
+                        hijo = buscar_apareamiento(padre1, padre2)
+                        dot.node(padre1[0], label=padre1[0])
+                        dot.node(padre2[0], label=padre2[0])
+                        dot.node(hijo[0], label=hijo[0])
+                        dot.edge(padre1[0], hijo[0])
+                        dot.edge(padre2[0], hijo[0])
+                        i = i - 2
+
+                dot.pipe(format='png')
+                dot_images.append(dot)  # Agregar el dot al array de imágenes
+
+        return dot_images
+
+"""
 limite = 1
 print("Who do you want to start with?")
 inicio = pedir_pal()
 print("Who do you want to reach?")
 objetivo = pedir_pal()
 path = [objetivo]
+soluciones = []
 
 while len(soluciones) == 0:
         lookpath(inicio, objetivo, objetivo, limite, path)
@@ -137,3 +190,4 @@ for sol in soluciones:
 
         if entrada.lower() == 'q':
             sys.exit()
+"""
