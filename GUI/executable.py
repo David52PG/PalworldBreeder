@@ -1,10 +1,12 @@
 from PySide6.QtWidgets import *
-from PySide6.QtGui import QPixmap
+from PySide6.QtCore import *
+from PySide6.QtGui import *
 import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import main
+from PySide6.QtGui import QImage
 
 class ImageProcessor:
     @staticmethod
@@ -59,21 +61,32 @@ class ImageWindow(QWidget):
             self.show_current_image()
 
     def show_current_image(self):
-        if self.images:
+        if self.images and len(self.images) <= self.current_image_index:
+            QMessageBox.critical(self, "End of image gallery", "There are not more trees")
+        elif self.images:
             image = self.images[self.current_image_index]
-            pixmap = QPixmap(image)
+            byte_array = QByteArray(image)
+            pixmap = QPixmap()
+            pixmap.loadFromData(byte_array)
             self.image_label.setPixmap(pixmap)
-            self.current_image_index = (self.current_image_index + 1) % len(self.images)
 
     def show_next_image(self):
         if self.images:
-            self.current_image_index = (self.current_image_index + 1) % len(self.images)
+            self.current_image_index += 1
             self.show_current_image()
 
     def save_image(self):
-        if self.images:
+        if not self.images:
+            QMessageBox.critical(self, "Error", "There are no image")
+        elif self.images:
             image = self.images[self.current_image_index]
-            # Lógica para guardar la imagen en el ordenador
+            qimage = QImage.fromData(image)
+            file_dialog = QFileDialog()
+            file_dialog.setDefaultSuffix("png")
+            file_path, _ = file_dialog.getSaveFileName(self, "Save Image", "", "PNG Files (*.png)")
+
+            if file_path:
+                qimage.save(file_path, "PNG")
 
 app = QApplication(sys.argv)
 window = ImageWindow()

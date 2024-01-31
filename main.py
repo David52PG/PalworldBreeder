@@ -1,6 +1,7 @@
 import json
 import sys
 from pal import Pal
+import graphviz
 
 """
 Apertura de bases de datos
@@ -81,11 +82,13 @@ def lookpath(inicial, objetivo, Padre, limite, path=[]):
                 path.pop()
         return 
 
+if __name__ == "__main__":
+        mainloop(inicio, objetivo)
+
 soluciones = []
 path = []
 limite = 1
-if __name__ == "__main__":
-        mainloop(inicio, objetivo)
+
 def mainloop(inicio, objetivo):
         global path, soluciones, limite
         path.append(objetivo)
@@ -94,8 +97,6 @@ def mainloop(inicio, objetivo):
         while len(soluciones) == 0:
                 lookpath(inicio, objetivo, objetivo, limite, path)
                 limite += 1
-
-        del inicio, objetivo, path, limite
 
         solucionesfiltred = soluciones.copy()
         # eliminando soluciones repetidas
@@ -109,10 +110,6 @@ def mainloop(inicio, objetivo):
                                 i += 2
 
         soluciones = solucionesfiltred.copy()
-
-        del solucionesfiltred, sol, sol2, i
-
-        import graphviz
 
         for sol in soluciones:
                 dot = graphviz.Digraph(comment='Genealogical Tree')
@@ -128,8 +125,8 @@ def mainloop(inicio, objetivo):
                         dot.edge(padre2[0], hijo[0])
                         i = i - 2
 
-                dot.pipe(format='png')
-                dot_images.append(dot)  # Agregar el dot al array de imágenes
+                png_dot = dot.pipe(format='png')
+                dot_images.append(png_dot)  # Agregar el dot al array de imágenes
 
         return dot_images
 
