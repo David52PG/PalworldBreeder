@@ -1,8 +1,8 @@
 # PalworldBreeder
-A program to find a breeding path, specifying both the target and initial individuals.
+A breeding calculator for Palworld, specifying both target and initial individuals.
 
-Requires the Graphviz and PyQt6 pip package installed.
+Requires Graphviz and PyQt6 pip packages to be installed.
 
-To use it just open palworldBreeding
+To use it, simply open palworldBreeding.
 
-Feel free to report any issues :)
+Feel free to report any issues! :)
