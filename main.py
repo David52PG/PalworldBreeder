@@ -2,19 +2,24 @@ import json
 import sys
 from pal import Pal
 import graphviz
+import os
 
 """
 Apertura de bases de datos
 """
-pals = []
-with open("infopals.txt") as archivo:
-        for linea in archivo:
-                nombre, numero = linea.strip().split(" - ")
-                pals.append([nombre, int(numero)])
+# Get the absolute path of the script
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Leer el archivo JSON
-with open("breeding.json") as file:
-        data = json.load(file)
+# Open the file using the absolute path
+with open(os.path.join(script_dir, "infopals.txt")) as archivo:
+    pals = []
+    for linea in archivo:
+        nombre, numero = linea.strip().split(" - ")
+        pals.append([nombre, int(numero)])
+
+# Do the same for the JSON file
+with open(os.path.join(script_dir, "breeding.json")) as file:
+    data = json.load(file)
 
 del linea, nombre, numero, archivo, file
 
