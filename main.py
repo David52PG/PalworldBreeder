@@ -108,7 +108,7 @@ def mainloop(inicio, objetivo):
         for sol in soluciones:
                 for sol2 in soluciones:
                         i = 1
-                        while i < len(sol):
+                        while i < len(sol) and i < len(sol2):
                                 if sol2[i] == sol[i + 1] and sol2[i + 1] == sol[i]:
                                         if sol2 in solucionesfiltred and sol in solucionesfiltred:
                                                 solucionesfiltred.remove(sol2)
