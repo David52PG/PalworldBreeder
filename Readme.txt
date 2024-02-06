@@ -1,1 +1,0 @@
-necesario el paquete graphviz
