@@ -99,27 +99,34 @@ def mainloop(inicio, objetivo):
         path.append(objetivo)
         dot_images = []
 
-        while len(soluciones) == 0:
+        while len(soluciones) == 0 and limite < 5:
                 lookpath(inicio, objetivo, objetivo, limite, path)
                 limite += 1
+        
+        limite = 0
+        if len(soluciones) == 0:
+                path.clear()
+                soluciones = []
+                return False
 
         solucionesfiltred = soluciones.copy()
         # eliminando soluciones repetidas
         for sol in soluciones:
                 for sol2 in soluciones:
                         i = 1
-                        while i < len(sol) and i < len(sol2):
+                        while i < len(sol) - 1 and i < len(sol2):
                                 if sol2[i] == sol[i + 1] and sol2[i + 1] == sol[i]:
                                         if sol2 in solucionesfiltred and sol in solucionesfiltred:
                                                 solucionesfiltred.remove(sol2)
                                 i += 2
+        i = 0
 
         soluciones = solucionesfiltred.copy()
 
         for sol in soluciones:
                 dot = graphviz.Digraph(comment='Genealogical Tree')
                 i = len(sol) - 1
-                while i != 0:
+                while i > 0:
                         padre1 = sol[i]
                         padre2 = sol[i - 1]
                         hijo = buscar_apareamiento(padre1, padre2)
@@ -132,7 +139,9 @@ def mainloop(inicio, objetivo):
 
                 png_dot = dot.pipe(format='png')
                 dot_images.append(png_dot)  # Agregar el dot al array de imágenes
-
+        
+        soluciones.clear()
+        path.clear()
         return dot_images
 
 """

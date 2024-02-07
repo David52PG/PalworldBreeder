@@ -8,6 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import main
 from PySide6.QtGui import QImage
 
+
 class ImageProcessor:
     @staticmethod
     def process_images(name1, name2):
@@ -18,7 +19,8 @@ class ImageProcessor:
 class ImageWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Image Viewer")
+        self.setWindowTitle("PalworldBreeding")
+        self.windowIcon = QIcon(os.path.join(os.path.dirname(os.path.dirname(__file__)), "Pal_Sphere_icon.ico"))
 
         self.name1_text = QLineEdit()
         self.name2_text = QLineEdit()
@@ -56,9 +58,13 @@ class ImageWindow(QWidget):
             QMessageBox.critical(self, "Error", "Destination name not found")
         else:
             self.images = ImageProcessor.process_images(name1, name2)
-            self.current_image_index = 0
-
-            self.show_current_image()
+            if self.images == False:
+                QMessageBox.critical(self, "No path", "No path found between the two pals")
+                self.images = []
+                self.current_image_index = 0
+            else: 
+                self.current_image_index = 0
+                self.show_current_image()
 
     def show_current_image(self):
         if self.images and len(self.images) <= self.current_image_index:
