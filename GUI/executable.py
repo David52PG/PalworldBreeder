@@ -5,6 +5,7 @@ from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from button import Button
+from WelcomeBox import WelcomeBox
 from BreedingPath import BreedingPath
 from BreedingCombo import BreedingCombo
 from possibleParents import PossibleParents
@@ -44,6 +45,10 @@ class MainBox(QWidget):
         breeding_path_button.clicked.connect(self.show_breeding_path)
         breeding_combo_button.clicked.connect(self.show_breeding_combo)
         possible_parents_button.clicked.connect(self.show_possible_parents)
+
+        welcome_box = WelcomeBox()
+        self.stacked_widget.addWidget(welcome_box)
+        self.stacked_widget.setCurrentWidget(welcome_box)
 
     def show_breeding_path(self):
         breeding_path = BreedingPath()
