@@ -8,4 +8,5 @@ class MessageBox(QMessageBox):
         self.setStyle()
             
     def setStyle(self):
+        self.setIcon(QMessageBox.Critical)
         self.setStyleSheet("QMessageBox { background-color: black; } QLabel { color: white; }")
