@@ -87,15 +87,10 @@ def lookpath(inicial, objetivo, Padre, limite, path=[]):
                 path.pop()
         return 
 
-if __name__ == "__main__":
-        mainloop(inicio, objetivo)
-
-soluciones = []
-path = []
-limite = 1
-
 def mainloop(inicio, objetivo):
-        global path, soluciones, limite
+        soluciones = []
+        path = []
+        limite = 1
         path.append(objetivo)
         dot_images = []
 
@@ -143,62 +138,3 @@ def mainloop(inicio, objetivo):
         soluciones.clear()
         path.clear()
         return dot_images
-
-"""
-limite = 1
-print("Who do you want to start with?")
-inicio = pedir_pal()
-print("Who do you want to reach?")
-objetivo = pedir_pal()
-path = [objetivo]
-soluciones = []
-
-while len(soluciones) == 0:
-        lookpath(inicio, objetivo, objetivo, limite, path)
-        limite += 1
-
-del inicio, objetivo, path, limite
-
-print("removing repetitive solutions...")
-
-solucionesfiltred = soluciones.copy()
-#eliminando soluciones repetidas
-for sol in soluciones:
-        for sol2 in soluciones:
-                i = 1
-                while i < len(sol):
-                        if sol2[i] == sol[i + 1] and sol2[i + 1] == sol[i]:
-                                if sol2 in solucionesfiltred and sol in solucionesfiltred:
-                                        solucionesfiltred.remove(sol2)
-                        i += 2
-
-soluciones = solucionesfiltred.copy()
-
-print("found solutions:", len(soluciones))
-
-del solucionesfiltred, sol, sol2, i
-# Imprimir las soluciones ordenadas por menor longitud
-import graphviz
-
-
-for sol in soluciones:
-        dot = graphviz.Digraph(comment='Genealogical Tree')
-        i = len(sol) - 1
-        while i != 0:
-                padre1 = sol[i]
-                padre2 = sol[i - 1]
-                hijo = buscar_apareamiento(padre1, padre2)
-                dot.node(padre1[0], label=padre1[0])
-                dot.node(padre2[0], label=padre2[0])
-                dot.node(hijo[0], label=hijo[0])
-                dot.edge(padre1[0], hijo[0])
-                dot.edge(padre2[0], hijo[0])
-                i = i - 2
-
-        dot.render('genealogical_tree', format='png', view=True)
-        print("Press Enter to continue or type 'q' to stop: ")
-        entrada = input()
-
-        if entrada.lower() == 'q':
-            sys.exit()
-"""

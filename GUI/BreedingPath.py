@@ -3,8 +3,13 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 import sys
 import os
-import main
 from PySide6.QtGui import QImage
+
+import sys
+import os
+
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)), "PalworldBreeder"))
+from main import mainloop
 
 class ImageProcessor:
     @staticmethod
@@ -17,7 +22,7 @@ class BreedingPath(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("PalworldBreeding")
-        self.windowIcon = QIcon(os.path.join(os.path.dirname(os.path.dirname(__file__)), "Pal_Sphere_icon.ico"))
+        self.setWindowIcon(QIcon(os.path.join(os.path.dirname(os.path.dirname(__file__)), "Pal_Sphere_icon.ico")))
 
         self.name1_text = QLineEdit()
         self.name2_text = QLineEdit()
