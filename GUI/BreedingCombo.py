@@ -5,6 +5,7 @@ import sys
 import os
 import main
 from PySide6.QtGui import QImage
+from main import mainloop
 
 class ImageProcessor:
     @staticmethod
@@ -13,7 +14,7 @@ class ImageProcessor:
 
         return images
 
-class BreedingPath(QWidget):
+class BreedingCombo(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("PalworldBreeding")

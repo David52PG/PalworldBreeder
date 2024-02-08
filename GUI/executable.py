@@ -1,8 +1,9 @@
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__))))
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
-import sys
-import os
 from button import Button
 from BreedingPath import BreedingPath
 from BreedingCombo import BreedingCombo

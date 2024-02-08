@@ -4,37 +4,41 @@ from PySide6.QtGui import *
 import sys
 import os
 from PySide6.QtGui import QImage
-
 import sys
 import os
-
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)), "PalworldBreeder"))
-from main import mainloop
+from main import *
+from button import Button
+from MessageBox import MessageBox
 
 class ImageProcessor:
     @staticmethod
     def process_images(name1, name2):
-        images = main.mainloop(name1, name2)
+        images = mainloop(name1, name2)
 
         return images
 
 class BreedingPath(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("PalworldBreeding")
-        self.setWindowIcon(QIcon(os.path.join(os.path.dirname(os.path.dirname(__file__)), "Pal_Sphere_icon.ico")))
 
         self.name1_text = QLineEdit()
+        self.name1_text.setStyleSheet("color: white;")
         self.name2_text = QLineEdit()
-        self.button = QPushButton("Show Images")
-        self.next_button = QPushButton("Next Image")
-        self.save_button = QPushButton("Save Image")
+        self.name2_text.setStyleSheet("color: white;")
+        self.button = Button("Show Images")
+        self.next_button = Button("Next Image")
+        self.save_button = Button("Save Image")
         self.image_label = QLabel()
+        destination_label = QLabel("Destination:")
+        destination_label.setStyleSheet("color: white;")
+        origin_label = QLabel("Origin:")
+        origin_label.setStyleSheet("color: white;")
 
         layout = QVBoxLayout()
-        layout.addWidget(QLabel("Origin:"))
+
+        layout.addWidget(origin_label)
         layout.addWidget(self.name1_text)
-        layout.addWidget(QLabel("Destination:"))
+        layout.addWidget(destination_label)
         layout.addWidget(self.name2_text)
         layout.addWidget(self.button)
         layout.addWidget(self.next_button)
@@ -51,17 +55,17 @@ class BreedingPath(QWidget):
         self.current_image_index = 0
 
     def show_images(self):
-        name1 = main.buscar_pal(self.name1_text.text())
-        name2 = main.buscar_pal(self.name2_text.text())
+        name1 = buscar_pal(self.name1_text.text())
+        name2 = buscar_pal(self.name2_text.text())
 
         if name1 == None:
-            QMessageBox.critical(self, "Error", "Origin name not found")
+            MessageBox.critical(self, "Error", "Origin name not found")
         elif name2 == None:
-            QMessageBox.critical(self, "Error", "Destination name not found")
+            MessageBox.critical(self, "Error", "Destination name not found")
         else:
             self.images = ImageProcessor.process_images(name1, name2)
             if self.images == False:
-                QMessageBox.critical(self, "No path", "No path found between the two pals")
+                MessageBox.critical(self, "No path", "No path found between the two pals")
                 self.images = []
                 self.current_image_index = 0
             else: 
@@ -70,7 +74,7 @@ class BreedingPath(QWidget):
 
     def show_current_image(self):
         if self.images and len(self.images) <= self.current_image_index:
-            QMessageBox.critical(self, "End of image gallery", "There are not more trees")
+            MessageBox.critical(self, "End of image gallery", "There are not more trees")
         elif self.images:
             image = self.images[self.current_image_index]
             byte_array = QByteArray(image)
@@ -85,7 +89,7 @@ class BreedingPath(QWidget):
 
     def save_image(self):
         if not self.images:
-            QMessageBox.critical(self, "Error", "There are no image")
+            MessageBox.critical(self, "Error", "There are no image")
         elif self.images:
             image = self.images[self.current_image_index]
             qimage = QImage.fromData(image)
