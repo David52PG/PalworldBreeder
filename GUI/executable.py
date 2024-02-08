@@ -3,98 +3,64 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 import sys
 import os
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import main
+from button import Button
+from BreedingPath import BreedingPath
+from BreedingCombo import BreedingCombo
+from possibleParents import PossibleParents
 from PySide6.QtGui import QImage
 
 
-class ImageProcessor:
-    @staticmethod
-    def process_images(name1, name2):
-        images = main.mainloop(name1, name2)
-
-        return images
-
-class ImageWindow(QWidget):
+class MainBox(QWidget):
     def __init__(self):
         super().__init__()
+        self.setStyleSheet("background-color: black;")
+
+        self.resize(800, 600)
         self.setWindowTitle("PalworldBreeding")
-        self.windowIcon = QIcon(os.path.join(os.path.dirname(os.path.dirname(__file__)), "Pal_Sphere_icon.ico"))
+        self.setWindowIcon(QIcon(os.path.join(os.path.dirname(os.path.dirname(__file__)), "Pal_Sphere_icon.ico")))
+        # Create buttons
+        breeding_path_button = Button("BreedingPath")
+        breeding_combo_button = Button("BreedingCombo")
+        possible_parents_button = Button("PossibleParents")
 
-        self.name1_text = QLineEdit()
-        self.name2_text = QLineEdit()
-        self.button = QPushButton("Show Images")
-        self.next_button = QPushButton("Next Image")
-        self.save_button = QPushButton("Save Image")
-        self.image_label = QLabel()
+        # Create layout for buttons
+        button_layout = QHBoxLayout()
+        button_layout.addWidget(breeding_path_button)
+        button_layout.addWidget(breeding_combo_button)
+        button_layout.addWidget(possible_parents_button)
+        # Create stacked widget to hold the windows
+        self.stacked_widget = QStackedWidget()
 
+        # Create layout for the main widget
         layout = QVBoxLayout()
-        layout.addWidget(QLabel("Origin:"))
-        layout.addWidget(self.name1_text)
-        layout.addWidget(QLabel("Destination:"))
-        layout.addWidget(self.name2_text)
-        layout.addWidget(self.button)
-        layout.addWidget(self.next_button)
-        layout.addWidget(self.save_button)
-        layout.addWidget(self.image_label)
+        layout.addLayout(button_layout)
+        layout.addWidget(self.stacked_widget)
 
+        # Set layout for the main widget
         self.setLayout(layout)
 
-        self.button.clicked.connect(self.show_images)
-        self.next_button.clicked.connect(self.show_next_image)
-        self.save_button.clicked.connect(self.save_image)
+        # Connect button click events to show respective windows
+        breeding_path_button.clicked.connect(self.show_breeding_path)
+        breeding_combo_button.clicked.connect(self.show_breeding_combo)
+        possible_parents_button.clicked.connect(self.show_possible_parents)
 
-        self.images = []
-        self.current_image_index = 0
+    def show_breeding_path(self):
+        breeding_path = BreedingPath()
+        self.stacked_widget.addWidget(breeding_path)
+        self.stacked_widget.setCurrentWidget(breeding_path)
 
-    def show_images(self):
-        name1 = main.buscar_pal(self.name1_text.text())
-        name2 = main.buscar_pal(self.name2_text.text())
+    def show_breeding_combo(self):
+        breeding_combo = BreedingCombo()
+        self.stacked_widget.addWidget(breeding_combo)
+        self.stacked_widget.setCurrentWidget(breeding_combo)
 
-        if name1 == None:
-            QMessageBox.critical(self, "Error", "Origin name not found")
-        elif name2 == None:
-            QMessageBox.critical(self, "Error", "Destination name not found")
-        else:
-            self.images = ImageProcessor.process_images(name1, name2)
-            if self.images == False:
-                QMessageBox.critical(self, "No path", "No path found between the two pals")
-                self.images = []
-                self.current_image_index = 0
-            else: 
-                self.current_image_index = 0
-                self.show_current_image()
+    def show_possible_parents(self):
+        possible_parents = PossibleParents()
+        self.stacked_widget.addWidget(possible_parents)
+        self.stacked_widget.setCurrentWidget(possible_parents)
 
-    def show_current_image(self):
-        if self.images and len(self.images) <= self.current_image_index:
-            QMessageBox.critical(self, "End of image gallery", "There are not more trees")
-        elif self.images:
-            image = self.images[self.current_image_index]
-            byte_array = QByteArray(image)
-            pixmap = QPixmap()
-            pixmap.loadFromData(byte_array)
-            self.image_label.setPixmap(pixmap)
-
-    def show_next_image(self):
-        if self.images:
-            self.current_image_index += 1
-            self.show_current_image()
-
-    def save_image(self):
-        if not self.images:
-            QMessageBox.critical(self, "Error", "There are no image")
-        elif self.images:
-            image = self.images[self.current_image_index]
-            qimage = QImage.fromData(image)
-            file_dialog = QFileDialog()
-            file_dialog.setDefaultSuffix("png")
-            file_path, _ = file_dialog.getSaveFileName(self, "Save Image", "", "PNG Files (*.png)")
-
-            if file_path:
-                qimage.save(file_path, "PNG")
 
 app = QApplication(sys.argv)
-window = ImageWindow()
+window = MainBox()
 window.show()
 sys.exit(app.exec())

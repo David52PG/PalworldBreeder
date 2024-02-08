@@ -87,12 +87,10 @@ def lookpath(inicial, objetivo, Padre, limite, path=[]):
                 path.pop()
         return 
 
-soluciones = []
-path = []
-limite = 1
-
 def mainloop(inicio, objetivo):
-        global path, soluciones, limite
+        soluciones = []
+        path = []
+        limite = 1
         path.append(objetivo)
         dot_images = []
 
