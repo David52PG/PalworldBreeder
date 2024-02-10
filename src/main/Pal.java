@@ -1,3 +1,5 @@
+package main;
+
 public class Pal {
     private String name;
     private int power;
