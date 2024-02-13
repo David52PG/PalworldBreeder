@@ -10,22 +10,24 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 
-public class Main {
+public class Manager {
     private static ArrayList<Pal> pals = new ArrayList<>();
     private static JSONArray breedings = new JSONArray();
     private static ArrayList<ArrayList<String>> soluciones = new ArrayList<>();
 
-    public static void main(String[] args) {
+    public Manager() {
         pals = loadPals();
         breedings = loadBreedings();
-        mainLoop(lookAPal("vanwyrm"), lookAPal("foxparks"));
-        System.out.println(soluciones);
     }
 
-    public static ArrayList<ArrayList<String>> mainLoop(Pal initial, Pal objective){
+    public LinkedList<Pal> listOfPals(){
+        LinkedList<Pal> palsToSend = new LinkedList<>(pals);
+        return palsToSend;
+    }
+
+    public ArrayList<ArrayList<String>> mainLoop(Pal initial, Pal objective){
         ArrayList<String> path = new ArrayList<>();
         int limite = 1;
         while (soluciones.isEmpty() && limite < 5) {
@@ -42,7 +44,7 @@ public class Main {
         return soluciones;
     }
 
-    public static ArrayList<Pal> loadPals() {
+    public ArrayList<Pal> loadPals() {
         String scriptDir = System.getProperty("user.dir");
         try (BufferedReader br = new BufferedReader(new FileReader(scriptDir +
                 "/src/main/resources/infopals.txt"))) {
@@ -57,7 +59,7 @@ public class Main {
         }
         return null;
     }
-    public static JSONArray loadBreedings() {
+    public JSONArray loadBreedings() {
         String scriptDir = System.getProperty("user.dir");
         String json = null;
         try {
@@ -69,7 +71,7 @@ public class Main {
         return data.getJSONArray("data");
     }
 
-    public static void printBreeding(JSONArray breedings){
+    public void printBreeding(JSONArray breedings){
         for (int i = 0; i < breedings.length(); i++) {
             JSONObject breeding = breedings.getJSONObject(i);
             JSONObject parent1 = breeding.getJSONObject("parent1");
@@ -78,7 +80,7 @@ public class Main {
         }
     }
 
-    public static Pal lookAPal(String name){
+    public Pal lookAPal(String name){
         for (Pal pal : pals) {
             if (pal.getName().equalsIgnoreCase(name)) {
                 return pal;
@@ -87,7 +89,7 @@ public class Main {
         return null;
     }
 
-    public static ArrayList<JSONObject> lookAResult(Pal result) {
+    public ArrayList<JSONObject> lookAResult(Pal result) {
         ArrayList<JSONObject> results = new ArrayList<>();
         for (int i = 0; i < breedings.length(); i++) {
             JSONObject breeding = breedings.getJSONObject(i);
@@ -99,7 +101,7 @@ public class Main {
         return results;
     }
 
-    private static void lookACouple(Pal parent1, Pal parent2){
+    public Pal lookACouple(Pal parent1, Pal parent2){
         for(int i=0; i < breedings.length(); i++){
             JSONObject breeding = breedings.getJSONObject(i);
             JSONObject parent1B = breeding.getJSONObject("parent1");
@@ -107,15 +109,14 @@ public class Main {
             if(parent1.getName().equalsIgnoreCase(parent1B.get("name").toString()) &&
                     parent2.getName().equalsIgnoreCase(parent2B.get("name").toString())){
                 JSONObject child = breeding.getJSONObject("child");
-                System.out.println("Padres: " + parent1.getName() +
-                        " y " + parent2.getName() +
-                        " hijo: " + child.get("name"));
+                return lookAPal(child.get("name").toString());
             }
         }
+        return null;
     }
     
     //cambiar parent por couple
-    public static void lookpath(Pal initial, Pal objective, Pal current, ArrayList<String> path, int limite){
+    public void lookpath(Pal initial, Pal objective, Pal current, ArrayList<String> path, int limite){
         if (path.isEmpty()){
             path.add(objective.getName());
         }
@@ -139,7 +140,7 @@ public class Main {
         }
     }
 
-    public static void deleteRepetedSolutions(){
+    public void deleteRepetedSolutions(){
         ArrayList<ArrayList<String>> solucionesfiltred = new ArrayList<>(soluciones);
         for (ArrayList<String> sol : soluciones) {
             for (ArrayList<String> sol2 : soluciones) {
