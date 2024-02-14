@@ -1,4 +1,4 @@
-package main.GUI;
+package GUI;
 
 import main.Manager;
 import main.Pal;
