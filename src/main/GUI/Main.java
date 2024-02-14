@@ -138,8 +138,16 @@ public class Main {
         parentsScrollPanel.getViewport().setBackground(Color.decode("#4F6280"));
         parentsScrollPanel.getViewport().setForeground(Color.WHITE);
         parentsScrollPanel.setBorder(null);
-        parentsPanel.setLayout(new BoxLayout(parentsPanel, BoxLayout.X_AXIS));
+        parentsPanel.setLayout(new BoxLayout(parentsPanel, BoxLayout.Y_AXIS));
         parentsPanel.setBackground(Color.decode("#4F6280"));
+
+        JScrollBar verticalScrollBar = parentsScrollPanel.getVerticalScrollBar();
+        verticalScrollBar.setUnitIncrement(16);
+        JScrollBar horizontalScrollBar = parentsScrollPanel.getHorizontalScrollBar();
+        horizontalScrollBar.setUnitIncrement(16);
+
+        JPanel row = new JPanel();
+        row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
         JLabel scrollImage = new JLabel();
         scrollImage.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Lamball.png"));
         JLabel scrollImage2 = new JLabel();
@@ -150,11 +158,12 @@ public class Main {
         add.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\simbols\\add.png"));
         JLabel equal = new JLabel();
         equal.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\simbols\\equal.png"));
-        parentsPanel.add(scrollImage);
-        parentsPanel.add(add);
-        parentsPanel.add(scrollImage2);
-        parentsPanel.add(equal);
-        parentsPanel.add(scrollImage3);
+        row.add(scrollImage);
+        row.add(add);
+        row.add(scrollImage2);
+        row.add(equal);
+        row.add(scrollImage3);
+        parentsPanel.add(row);
         parentsScrollPanel.setViewportView(parentsPanel);
     }
 
@@ -241,8 +250,34 @@ public class Main {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     Pal PalSelected = manager.lookAPal((String) parentsBox1.getSelectedItem());
                     ArrayList<ArrayList<Pal>> parents = manager.lookParents(PalSelected);
-
-                    
+                    parentsPanel.removeAll();
+                    for (ArrayList<Pal> couple : parents){
+                        JPanel row = new JPanel();
+                        Pal parent1 = couple.get(0);
+                        Pal parent2 = couple.get(1);
+                        if(parent1 == null || parent2 == null){
+                            continue;
+                        }
+                        row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
+                        row.setBackground(Color.decode("#4F6280"));
+                        JLabel parent1Label = new JLabel();
+                        JLabel parent2Label = new JLabel();
+                        parent1Label.setIcon(new ImageIcon(parent1.getImage()));
+                        parent2Label.setIcon(new ImageIcon(parent2.getImage()));
+                        row.add(parent1Label);
+                        JLabel image1 = new JLabel();
+                        image1.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\simbols\\add.png"));
+                        row.add(image1);
+                        row.add(parent2Label);
+                        JLabel image2 = new JLabel();
+                        image2.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\simbols\\equal.png"));
+                        row.add(image2);
+                        JLabel child = new JLabel();
+                        child.setIcon(new ImageIcon(PalSelected.getImage()));
+                        row.add(child);
+                        parentsPanel.add(row);
+                    }
+                    parentsScrollPanel.setViewportView(parentsPanel);
                 }
             }
         });
