@@ -71,15 +71,6 @@ public class Manager {
         return data.getJSONArray("data");
     }
 
-    public void printBreeding(JSONArray breedings){
-        for (int i = 0; i < breedings.length(); i++) {
-            JSONObject breeding = breedings.getJSONObject(i);
-            JSONObject parent1 = breeding.getJSONObject("parent1");
-            JSONObject parent2 = breeding.getJSONObject("parent2");
-            JSONObject child = breeding.getJSONObject("child");
-        }
-    }
-
     public Pal lookAPal(String name){
         for (Pal pal : pals) {
             if (pal.getName().equalsIgnoreCase(name)) {
@@ -113,6 +104,23 @@ public class Manager {
             }
         }
         return null;
+    }
+
+    public ArrayList<ArrayList<Pal>> lookParents(Pal child){
+        ArrayList<ArrayList<Pal>> parents = new ArrayList<>();
+        for(int i=0; i < breedings.length(); i++){
+            JSONObject breeding = breedings.getJSONObject(i);
+            JSONObject childB = breeding.getJSONObject("child");
+            if(child.getName().equalsIgnoreCase(childB.get("name").toString())){
+                JSONObject parent1 = breeding.getJSONObject("parent1");
+                JSONObject parent2 = breeding.getJSONObject("parent2");
+                ArrayList<Pal> couple = new ArrayList<>();
+                couple.add(lookAPal(parent1.get("name").toString()));
+                couple.add(lookAPal(parent2.get("name").toString()));
+                parents.add(couple);
+            }
+        }
+        return parents;
     }
     
     //cambiar parent por couple

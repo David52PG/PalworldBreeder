@@ -1,5 +1,4 @@
-//tanzee mono verde
-package main.GUI;
+package GUI;
 
 import main.Manager;
 import main.Pal;
@@ -13,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -34,7 +35,6 @@ public class Main {
     private JPanel Welcome_Panel = new JPanel();
     private JPanel BreedingComboPanel;
     private JPanel PossibleParentsPanel;
-    private JTextPane possibleParentsTextPane;
     private JButton TitleButton;
     private final Manager manager = new Manager();
     private JTextPane ComboTextResult;
@@ -50,6 +50,14 @@ public class Main {
     private JLabel Objective;
     private JLabel Initial;
     private JButton pathButton;
+    private JComboBox parentsBox1;
+    private JPanel parents1Panel;
+    private JPanel parents2Panel;
+    private JTextPane parent1Text;
+    private JTextPane parent2Text;
+    private JLabel parent1Image;
+    private JLabel parent2Image;
+    private JLabel parentPossible1;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -77,8 +85,6 @@ public class Main {
         setStarterImages();
 
         setListeners();
-
-        setComboResult();
     }
 
     public void setPanels(){
@@ -97,9 +103,6 @@ public class Main {
         BreedingPathPanel.setBackground(Color.decode("#4F6280"));
         PossibleParentsPanel.setBackground(Color.decode("#4F6280"));
 
-        possibleParentsTextPane.setBackground(Color.decode("#4F6280"));
-        possibleParentsTextPane.setForeground(Color.WHITE);
-
         ComboTextResult.setBackground(Color.decode("#4F6280"));
         ComboTextResult.setForeground(Color.WHITE);
 
@@ -107,6 +110,10 @@ public class Main {
         Combo2Panel.setBackground(Color.decode("#4F6280"));
         Path1Panel.setBackground(Color.decode("#4F6280"));
         Path2Panel.setBackground(Color.decode("#4F6280"));
+
+        parents1Panel.setBackground(Color.decode("#4F6280"));
+        parents2Panel.setBackground(Color.decode("#4F6280"));
+        BreedingComboPanel.setBackground(Color.decode("#4F6280"));
     }
 
     public void setButtons(){
@@ -144,6 +151,24 @@ public class Main {
 
         Objective.setBackground(Color.decode("#4F6280"));
         Objective.setForeground(Color.WHITE);
+
+        parent1Text.setBackground(Color.decode("#4F6280"));
+        parent1Text.setForeground(Color.WHITE);
+        parent1Text.setText("Lamball");
+
+        doc = parent1Text.getStyledDocument();
+        center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+
+        parent2Text.setBackground(Color.decode("#4F6280"));
+        parent2Text.setForeground(Color.WHITE);
+        parent2Text.setText("Lamball");
+
+        doc = parent2Text.getStyledDocument();
+        center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
     }
 
     public void setComboBoxes(){
@@ -159,17 +184,22 @@ public class Main {
         pathBox2.setBackground(Color.decode("#4F6280"));
         pathBox2.setForeground(Color.WHITE);
 
+        parentsBox1.setBackground(Color.decode("#4F6280"));
+        parentsBox1.setForeground(Color.WHITE);
+
         for (Pal pal : manager.listOfPals()) {
             comboBox1.addItem(pal.getName());
             comboBox2.addItem(pal.getName());
             pathBox1.addItem(pal.getName());
             pathBox2.addItem(pal.getName());
+            parentsBox1.addItem(pal.getName());
         }
 
         AutoCompleteDecorator.decorate(comboBox1);
         AutoCompleteDecorator.decorate(comboBox2);
         AutoCompleteDecorator.decorate(pathBox1);
         AutoCompleteDecorator.decorate(pathBox2);
+        AutoCompleteDecorator.decorate(parentsBox1);
 
         ComboTextResult.setText("Lamball");
         StyledDocument doc = ComboTextResult.getStyledDocument();
@@ -182,29 +212,36 @@ public class Main {
         String path = System.getProperty("user.dir") + "\\src\\images\\Lamball.png";
         ImageIcon icon = new ImageIcon(path);
         ComboPal1.setIcon(icon);
-
-        icon = new ImageIcon(path);
         ComboPal2.setIcon(icon);
-
-        icon = new ImageIcon(path);
-        path1Label.setIcon(icon);
-
-        icon = new ImageIcon(path);
-        path2Label.setIcon(icon);
-
         ComboPal3.setIcon(icon);
 
+        path1Label.setIcon(icon);
+        path2Label.setIcon(icon);
+
+        parent1Image.setIcon(icon);
+        parent2Image.setIcon(icon);
+
+        parentPossible1.setIcon(icon);
+
     }
 
-    public void setComboResult(){
-
-    }
     public void setListeners(){
+
+        parentsBox1.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    Pal PalSelected = manager.lookAPal((String) parentsBox1.getSelectedItem());
+                    ArrayList<ArrayList<Pal>> parents = manager.lookParents(PalSelected);
+                    
+                }
+            }
+        });
         comboBox1.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    Pal PalSelected = manager.lookAPal((String) comboBox1.getSelectedItem());
+                    main.Pal PalSelected = manager.lookAPal((String) comboBox1.getSelectedItem());
                     String path = System.getProperty("user.dir") + "\\src\\images\\" + PalSelected.getName() + ".png";
                     ImageIcon icon = new ImageIcon(path);
                     ComboPal1.setIcon(icon);
