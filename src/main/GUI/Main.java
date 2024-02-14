@@ -1,4 +1,4 @@
-package GUI;
+package main.GUI;
 
 import main.Manager;
 import main.Pal;
@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -57,7 +56,9 @@ public class Main {
     private JTextPane parent2Text;
     private JLabel parent1Image;
     private JLabel parent2Image;
-    private JLabel parentPossible1;
+    private JLabel childPossible1;
+    private JScrollPane parentsScrollPanel;
+    private JPanel parentsPanel = new JPanel();
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -65,7 +66,7 @@ public class Main {
                 JFrame frame = new JFrame("Main");
                 Main main = new Main();
                 frame.setContentPane(main.MainPanel);
-                frame.setSize(1000,600);
+                frame.setSize(1050,600);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,6 +80,8 @@ public class Main {
         setButtons();
 
         setTexts();
+
+        setScrollBoxes();
 
         setComboBoxes();
 
@@ -129,6 +132,32 @@ public class Main {
         pathButton.setForeground(Color.WHITE);
     }
 
+    private void setScrollBoxes(){
+        parentsScrollPanel.setBackground(Color.decode("#4F6280"));
+        parentsScrollPanel.setForeground(Color.WHITE);
+        parentsScrollPanel.getViewport().setBackground(Color.decode("#4F6280"));
+        parentsScrollPanel.getViewport().setForeground(Color.WHITE);
+        parentsScrollPanel.setBorder(null);
+        parentsPanel.setLayout(new BoxLayout(parentsPanel, BoxLayout.X_AXIS));
+        parentsPanel.setBackground(Color.decode("#4F6280"));
+        JLabel scrollImage = new JLabel();
+        scrollImage.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Lamball.png"));
+        JLabel scrollImage2 = new JLabel();
+        scrollImage2.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Lamball.png"));
+        JLabel scrollImage3 = new JLabel();
+        scrollImage3.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Lamball.png"));
+        JLabel add = new JLabel();
+        add.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\simbols\\add.png"));
+        JLabel equal = new JLabel();
+        equal.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\simbols\\equal.png"));
+        parentsPanel.add(scrollImage);
+        parentsPanel.add(add);
+        parentsPanel.add(scrollImage2);
+        parentsPanel.add(equal);
+        parentsPanel.add(scrollImage3);
+        parentsScrollPanel.setViewportView(parentsPanel);
+    }
+
     public void setTexts(){
         WelcomeText.setBackground(Color.decode("#4F6280"));
         WelcomeText.setForeground(Color.WHITE);
@@ -151,24 +180,6 @@ public class Main {
 
         Objective.setBackground(Color.decode("#4F6280"));
         Objective.setForeground(Color.WHITE);
-
-        parent1Text.setBackground(Color.decode("#4F6280"));
-        parent1Text.setForeground(Color.WHITE);
-        parent1Text.setText("Lamball");
-
-        doc = parent1Text.getStyledDocument();
-        center = new SimpleAttributeSet();
-        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-        doc.setParagraphAttributes(0, doc.getLength(), center, false);
-
-        parent2Text.setBackground(Color.decode("#4F6280"));
-        parent2Text.setForeground(Color.WHITE);
-        parent2Text.setText("Lamball");
-
-        doc = parent2Text.getStyledDocument();
-        center = new SimpleAttributeSet();
-        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-        doc.setParagraphAttributes(0, doc.getLength(), center, false);
     }
 
     public void setComboBoxes(){
@@ -218,10 +229,7 @@ public class Main {
         path1Label.setIcon(icon);
         path2Label.setIcon(icon);
 
-        parent1Image.setIcon(icon);
-        parent2Image.setIcon(icon);
-
-        parentPossible1.setIcon(icon);
+        childPossible1.setIcon(icon);
 
     }
 
@@ -233,6 +241,7 @@ public class Main {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     Pal PalSelected = manager.lookAPal((String) parentsBox1.getSelectedItem());
                     ArrayList<ArrayList<Pal>> parents = manager.lookParents(PalSelected);
+
                     
                 }
             }
