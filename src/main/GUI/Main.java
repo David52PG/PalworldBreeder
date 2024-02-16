@@ -66,7 +66,7 @@ public class Main {
                 JFrame frame = new JFrame("Main");
                 Main main = new Main();
                 frame.setContentPane(main.MainPanel);
-                frame.setSize(1050,600);
+                frame.setSize(1050,800);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -153,7 +153,7 @@ public class Main {
         JLabel scrollImage = new JLabel();
         scrollImage.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Chikipi.png"));
         JLabel scrollImage2 = new JLabel();
-        scrollImage2.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Chikipil.png"));
+        scrollImage2.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Chikipi.png"));
         JLabel scrollImage3 = new JLabel();
         scrollImage3.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Chikipi.png"));
         JLabel add = new JLabel();
@@ -286,6 +286,9 @@ public class Main {
                         child.setIcon(new ImageIcon(PalSelected.getImage()));
                         row.add(child);
                         parentsPanel.add(row);
+                        row.setMinimumSize(new Dimension(880, 100));
+                        row.setMaximumSize(new Dimension(880, 200));
+                        row.setPreferredSize(new Dimension(880, 200));
                     }
                     parentsScrollPanel.setViewportView(parentsPanel);
                 }
