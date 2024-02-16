@@ -148,12 +148,14 @@ public class Main {
 
         JPanel row = new JPanel();
         row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
+        row.setBackground(Color.decode("#4F6280"));
+        row.setForeground(Color.WHITE);
         JLabel scrollImage = new JLabel();
-        scrollImage.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Lamball.png"));
+        scrollImage.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Chikipi.png"));
         JLabel scrollImage2 = new JLabel();
-        scrollImage2.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Lamball.png"));
+        scrollImage2.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Chikipil.png"));
         JLabel scrollImage3 = new JLabel();
-        scrollImage3.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Lamball.png"));
+        scrollImage3.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\Chikipi.png"));
         JLabel add = new JLabel();
         add.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\simbols\\add.png"));
         JLabel equal = new JLabel();
@@ -215,13 +217,21 @@ public class Main {
             parentsBox1.addItem(pal.getName());
         }
 
+        comboBox1.setSelectedItem("Chikipi");
+        comboBox2.setSelectedItem("Chikipi");
+        pathBox1.setSelectedItem("Chikipi");
+        pathBox2.setSelectedItem("Chikipi");
+        parentsBox1.setSelectedItem("Chikipi");
+
         AutoCompleteDecorator.decorate(comboBox1);
         AutoCompleteDecorator.decorate(comboBox2);
         AutoCompleteDecorator.decorate(pathBox1);
         AutoCompleteDecorator.decorate(pathBox2);
         AutoCompleteDecorator.decorate(parentsBox1);
 
-        ComboTextResult.setText("Lamball");
+
+
+        ComboTextResult.setText("Chikipi");
         StyledDocument doc = ComboTextResult.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
@@ -229,7 +239,7 @@ public class Main {
     }
 
     public void setStarterImages(){
-        String path = System.getProperty("user.dir") + "\\src\\images\\Lamball.png";
+        String path = System.getProperty("user.dir") + "\\src\\images\\Chikipi.png";
         ImageIcon icon = new ImageIcon(path);
         ComboPal1.setIcon(icon);
         ComboPal2.setIcon(icon);
