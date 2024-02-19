@@ -1,4 +1,4 @@
-package main;
+package main.main;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,7 +15,7 @@ import java.util.LinkedList;
 public class Manager {
     private static ArrayList<Pal> pals = new ArrayList<>();
     private static JSONArray breedings = new JSONArray();
-    private static ArrayList<ArrayList<String>> soluciones = new ArrayList<>();
+    private static ArrayList<ArrayList<Pal>> soluciones = new ArrayList<>();
 
     public Manager() {
         pals = loadPals();
@@ -27,8 +27,9 @@ public class Manager {
         return palsToSend;
     }
 
-    public ArrayList<ArrayList<String>> mainLoop(Pal initial, Pal objective){
-        ArrayList<String> path = new ArrayList<>();
+    public ArrayList<ArrayList<Pal>> mainLoop(Pal initial, Pal objective){
+        soluciones.clear();
+        ArrayList<Pal> path = new ArrayList<>();
         int limite = 1;
         while (soluciones.isEmpty() && limite < 5) {
             lookpath(initial, objective, objective, path, limite);
@@ -124,16 +125,16 @@ public class Manager {
     }
     
     //cambiar parent por couple
-    public void lookpath(Pal initial, Pal objective, Pal current, ArrayList<String> path, int limite){
+    public void lookpath(Pal initial, Pal objective, Pal current, ArrayList<Pal> path, int limite){
         if (path.isEmpty()){
-            path.add(objective.getName());
+            path.add(objective);
         }
         ArrayList<JSONObject> parents = lookAResult(current);
         for (JSONObject couple : parents) {
             JSONObject parent1 = couple.getJSONObject("parent1");
             JSONObject parent2 = couple.getJSONObject("parent2");
-            path.add(parent2.get("name").toString());
-            path.add(parent1.get("name").toString());
+            path.add(lookAPal(parent1.get("name").toString()));
+            path.add(lookAPal(parent2.get("name").toString()));
             if (parent1 == parent2) continue;
             else if (parent1.get("name").toString().equalsIgnoreCase(initial.getName())) {
                 soluciones.add(new ArrayList<>(path));
@@ -149,9 +150,9 @@ public class Manager {
     }
 
     public void deleteRepetedSolutions(){
-        ArrayList<ArrayList<String>> solucionesfiltred = new ArrayList<>(soluciones);
-        for (ArrayList<String> sol : soluciones) {
-            for (ArrayList<String> sol2 : soluciones) {
+        ArrayList<ArrayList<Pal>> solucionesfiltred = new ArrayList<>(soluciones);
+        for (ArrayList<Pal> sol : soluciones) {
+            for (ArrayList<Pal> sol2 : soluciones) {
                 int i = 1;
                 while (i < sol.size() - 1 && i < sol2.size()) {
                     if (sol2.get(i).equals(sol.get(i - 1)) && sol2.get(i - 1).equals(sol.get(i))) {
