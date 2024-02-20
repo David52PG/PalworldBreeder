@@ -1,7 +1,7 @@
 package main.GUI;
 
-import main.main.Manager;
-import main.main.Pal;
+import main.dataManagers.Manager;
+import main.dataManagers.Pal;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
