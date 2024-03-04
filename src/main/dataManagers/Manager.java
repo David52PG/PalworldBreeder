@@ -23,8 +23,7 @@ public class Manager {
     }
 
     public LinkedList<Pal> listOfPals(){
-        LinkedList<Pal> palsToSend = new LinkedList<>(pals);
-        return palsToSend;
+        return new LinkedList<>(pals);
     }
 
     public ArrayList<ArrayList<Pal>> mainLoop(Pal initial, Pal objective){
@@ -37,7 +36,6 @@ public class Manager {
             path.clear();
         }
         if (soluciones.isEmpty()){
-            soluciones.clear();
             return null;
         }
 
