@@ -38,10 +38,10 @@ public class Main {
     private JButton TitleButton;
     protected final Manager manager = new Manager();
     private JTextPane ComboTextResult;
-    private JComboBox comboBox1;
-    private JComboBox comboBox2;
-    protected JComboBox pathBox1;
-    protected JComboBox pathBox2;
+    private JComboBox<String> comboBox1;
+    private JComboBox<String> comboBox2;
+    protected JComboBox<String> pathBox1;
+    protected JComboBox<String> pathBox2;
     private JLabel ComboPal1;
     private JLabel ComboPal2;
     private JLabel ComboPal3;
@@ -50,7 +50,7 @@ public class Main {
     private JLabel Objective;
     private JLabel Initial;
     private JButton pathButton;
-    private JComboBox parentsBox1;
+    private JComboBox<String> parentsBox1;
     private JPanel parents1Panel;
     private JPanel parents2Panel;
     private JTextPane parent1Text;
@@ -301,8 +301,52 @@ public class Main {
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Thread pathThread = new PathThread();
-                pathThread.start();
+                if (currentSolutionPath == 0){
+                    JOptionPane.showMessageDialog(null, "No more next solutions", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    currentSolutionPath += 1;
+                    pathPanel.removeAll();
+                    Icon plus = new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\simbols\\add.png");
+                    Icon equal = new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\simbols\\equal.png");
+                    ArrayList<Pal> solution = path.get(currentSolutionPath);
+                    int i = 0;
+                    Pal lastChild = null;
+                    do {
+                        JPanel row = new JPanel();
+                        row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
+                        row.setBackground(Color.decode("#4F6280"));
+                        Pal pal1 = solution.get(i);
+                        Pal pal2 = solution.get(i + 1);
+                        JLabel pal1Label = new JLabel();
+                        JLabel pal2Label = new JLabel();
+                        JLabel plusLabel = new JLabel();
+                        JLabel equalLabel = new JLabel();
+                        pal1Label.setIcon(new ImageIcon(pal1.getImage()));
+                        pal2Label.setIcon(new ImageIcon(pal2.getImage()));
+                        if (lastChild == null || pal1 == lastChild) {
+                            plusLabel.setIcon(plus);
+                            equalLabel.setIcon(equal);
+                            row.add(pal1Label);
+                            row.add(plusLabel);
+                            row.add(pal2Label);
+                            row.add(equalLabel);
+                        } else if (pal2 == lastChild) {
+                            plusLabel.setIcon(plus);
+                            equalLabel.setIcon(equal);
+                            row.add(pal2Label);
+                            row.add(plusLabel);
+                            row.add(pal1Label);
+                            row.add(equalLabel);
+                        }
+                        lastChild = manager.lookACouple(pal1, pal2);
+                        JLabel child = new JLabel();
+                        child.setIcon(new ImageIcon(lastChild.getImage()));
+                        row.add(child);
+                        pathPanel.add(row);
+                        i += 2;
+                    } while (i < solution.size() - 2);
+                    ScrollPath.setViewportView(pathPanel);
+                }
             }
         });
         previousButton.addActionListener(new ActionListener() {
@@ -455,68 +499,68 @@ public class Main {
         });
     }
 
-class PathThread extends Thread {
+    class PathThread extends Thread {
 
-    private ArrayList<ArrayList<Pal>> path;
+        private ArrayList<ArrayList<Pal>> path;
 
-    public PathThread() {
-    }
-
-    @Override
-    public void run() {
-        currentSolutionPath = 0;
-        Pal pal1 = manager.lookAPal((String) pathBox1.getSelectedItem());
-        Pal pal2 = manager.lookAPal((String) pathBox2.getSelectedItem());
-        path = manager.mainLoop(pal1, pal2);
-        for (ArrayList<Pal> solution : path) {
-            Collections.reverse(solution);
+        public PathThread() {
         }
-        System.out.println(path);
-        pathPanel.removeAll();
-        if (path == null) {
-            ScrollPath.add(new JLabel("No path found"));
-        } else {
-            Icon plus = new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\simbols\\add.png");
-            Icon equal = new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\simbols\\equal.png");
-            ArrayList<Pal> solution = path.get(0);
-            int i = 0;
-            Pal lastChild = null;
-            do {
-                JPanel row = new JPanel();
-                row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
-                row.setBackground(Color.decode("#4F6280"));
-                pal1 = solution.get(i);
-                pal2 = solution.get(i + 1);
-                JLabel pal1Label = new JLabel();
-                JLabel pal2Label = new JLabel();
-                JLabel plusLabel = new JLabel();
-                JLabel equalLabel = new JLabel();
-                pal1Label.setIcon(new ImageIcon(pal1.getImage()));
-                pal2Label.setIcon(new ImageIcon(pal2.getImage()));
-                if (lastChild == null || pal1 == lastChild) {
-                    plusLabel.setIcon(plus);
-                    equalLabel.setIcon(equal);
-                    row.add(pal1Label);
-                    row.add(plusLabel);
-                    row.add(pal2Label);
-                    row.add(equalLabel);
-                } else if (pal2 == lastChild) {
-                    plusLabel.setIcon(plus);
-                    equalLabel.setIcon(equal);
-                    row.add(pal2Label);
-                    row.add(plusLabel);
-                    row.add(pal1Label);
-                    row.add(equalLabel);
-                }
-                lastChild = manager.lookACouple(pal1, pal2);
-                JLabel child = new JLabel();
-                child.setIcon(new ImageIcon(lastChild.getImage()));
-                row.add(child);
-                pathPanel.add(row);
-                i += 2;
-            } while (i < solution.size() - 2);
-            ScrollPath.setViewportView(pathPanel);
+
+        @Override
+        public void run() {
+            currentSolutionPath = 0;
+            Pal pal1 = manager.lookAPal((String) pathBox1.getSelectedItem());
+            Pal pal2 = manager.lookAPal((String) pathBox2.getSelectedItem());
+            path = manager.mainLoop(pal1, pal2);
+            for (ArrayList<Pal> solution : path) {
+                Collections.reverse(solution);
+            }
+            System.out.println(path);
+            pathPanel.removeAll();
+            if (path == null) {
+                ScrollPath.add(new JLabel("No path found"));
+            } else {
+                Icon plus = new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\simbols\\add.png");
+                Icon equal = new ImageIcon(System.getProperty("user.dir") + "\\src\\images\\simbols\\equal.png");
+                ArrayList<Pal> solution = path.get(0);
+                int i = 0;
+                Pal lastChild = null;
+                do {
+                    JPanel row = new JPanel();
+                    row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
+                    row.setBackground(Color.decode("#4F6280"));
+                    pal1 = solution.get(i);
+                    pal2 = solution.get(i + 1);
+                    JLabel pal1Label = new JLabel();
+                    JLabel pal2Label = new JLabel();
+                    JLabel plusLabel = new JLabel();
+                    JLabel equalLabel = new JLabel();
+                    pal1Label.setIcon(new ImageIcon(pal1.getImage()));
+                    pal2Label.setIcon(new ImageIcon(pal2.getImage()));
+                    if (lastChild == null || pal1 == lastChild) {
+                        plusLabel.setIcon(plus);
+                        equalLabel.setIcon(equal);
+                        row.add(pal1Label);
+                        row.add(plusLabel);
+                        row.add(pal2Label);
+                        row.add(equalLabel);
+                    } else if (pal2 == lastChild) {
+                        plusLabel.setIcon(plus);
+                        equalLabel.setIcon(equal);
+                        row.add(pal2Label);
+                        row.add(plusLabel);
+                        row.add(pal1Label);
+                        row.add(equalLabel);
+                    }
+                    lastChild = manager.lookACouple(pal1, pal2);
+                    JLabel child = new JLabel();
+                    child.setIcon(new ImageIcon(lastChild.getImage()));
+                    row.add(child);
+                    pathPanel.add(row);
+                    i += 2;
+                } while (i < solution.size() - 2);
+                ScrollPath.setViewportView(pathPanel);
+            }
         }
     }
-}
 }
