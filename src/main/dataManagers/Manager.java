@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
-
+// comentario inutil
 
 public class Manager {
     private static ArrayList<Pal> pals = new ArrayList<>();
